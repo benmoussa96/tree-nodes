@@ -1,0 +1,40 @@
+<mat-form-field appearance="fill" class="rootAddName">
+    <mat-label>New root node...</mat-label>
+    <input matInput #rootItemValue>
+</mat-form-field>
+<button mat-fab class="rootAdd" color="primary" matTooltip="Add root node" (click)="addNewItem(null, rootItemValue.value)"><mat-icon>add</mat-icon></button>
+<button mat-fab color="warn" matTooltip="Delete selected Nodes" (click)="deleteSelectedNodes()"><mat-icon>delete</mat-icon></button>
+
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+        <button mat-icon-button disabled></button>
+        <mat-checkbox class="checklist-leaf-node"
+                        [checked]="checklistSelection.isSelected(node)"
+                        (change)="todoLeafItemSelectionToggle(node)">{{node.name}}</mat-checkbox>
+        <button mat-icon-button matTooltip="Add child node" (click)="addNewItem(node, '')"><mat-icon>add</mat-icon></button>
+        <button mat-icon-button matTooltip="Edit node" (click)="saveNode(node, '')"><mat-icon>edit</mat-icon></button>
+    </mat-tree-node>
+  
+    <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
+        <button mat-icon-button disabled></button>
+        <mat-form-field appearance="fill">
+            <mat-label>New node...</mat-label>
+            <input matInput #itemValue>
+        </mat-form-field>
+        <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
+    </mat-tree-node>
+  
+    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+        <button mat-icon-button matTreeNodeToggle
+                [attr.aria-label]="'Toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+        </button>
+        <mat-checkbox [checked]="descendantsAllSelected(node)"
+                    [indeterminate]="descendantsPartiallySelected(node)"
+                    (change)="todoItemSelectionToggle(node)">{{node.name}}</mat-checkbox>
+        <button mat-icon-button matTooltip="Add child node" (click)="addNewItem(node, '')"><mat-icon>add</mat-icon></button>
+        <button mat-icon-button matTooltip="Edit node" (click)="saveNode(node, '')"><mat-icon>edit</mat-icon></button>
+    </mat-tree-node>
+  </mat-tree>
