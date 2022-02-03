@@ -3,7 +3,7 @@ Full-stack web app (NestJS + Angular) for managing and visualising a tree struct
 
 ## Description
 
-This full stack decentralized application was built in context of a tech assessment for FrozenLogic.
+This full stack web application was built in context of a tech assessment for FrozenLogic.
 * Backend: (tree-nodes/api)
     NestJS backend server and PostgreSQL database.
 * Frontend: (tree-nodes/client)
